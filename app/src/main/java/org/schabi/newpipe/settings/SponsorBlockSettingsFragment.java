@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 
 import org.schabi.newpipe.R;
+import org.schabi.newpipe.util.ServiceHelper;
 
 public class SponsorBlockSettingsFragment extends BasePreferenceFragment {
     @Override
@@ -18,6 +19,15 @@ public class SponsorBlockSettingsFragment extends BasePreferenceFragment {
     @Override
     public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
         addPreferencesFromResourceRegistry();
+
+        final Preference apiUrlPreference =
+                findPreference(getString(R.string.sponsor_block_custom_api_url_key));
+        assert apiUrlPreference != null;
+        apiUrlPreference.setOnPreferenceChangeListener((p, newValue) -> {
+            // the preference saves the value before notifying us, so this is safe to call now
+            ServiceHelper.initServices(requireContext());
+            return true;
+        });
 
         final Preference sponsorBlockWebsitePreference =
                 findPreference(getString(R.string.sponsor_block_home_page_key));

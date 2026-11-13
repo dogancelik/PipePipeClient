@@ -71,8 +71,8 @@ public class SponsorBlockApiUrlPreference extends Preference {
                     new AlertDialog.Builder(context)
                             .setView(helpDialogView)
                             .setPositiveButton("Use Official", (dialog, which) -> {
-                                editText.setText(context
-                                        .getString(R.string.sponsor_block_default_api_url));
+                                // empty = built-in default server
+                                editText.setText("");
                                 dialog.dismiss();
                             })
                             .setNeutralButton("Close", (dialog, which) -> dialog.dismiss())
@@ -85,15 +85,13 @@ public class SponsorBlockApiUrlPreference extends Preference {
                         .setView(alertDialogView)
                         .setTitle(context.getString(R.string.sponsor_block_api_url_title))
                         .setPositiveButton("OK", (dialog, which) -> {
-                            final String newValue = editText.getText().toString();
-                            if (!newValue.isEmpty()) {
-                                final SharedPreferences.Editor editor =
-                                        getPreferenceManager().getSharedPreferences().edit();
-                                editor.putString(getKey(), newValue);
-                                editor.apply();
+                            final String newValue = editText.getText().toString().trim();
+                            final SharedPreferences.Editor editor =
+                                    getPreferenceManager().getSharedPreferences().edit();
+                            editor.putString(getKey(), newValue);
+                            editor.apply();
 
-                                callChangeListener(newValue);
-                            }
+                            callChangeListener(newValue);
                             dialog.dismiss();
                         })
                         .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())

@@ -399,7 +399,7 @@ public final class ServiceHelper {
 
         final SponsorBlockApiSettings result = new SponsorBlockApiSettings();
         result.apiUrl =
-                prefs.getString(context.getString(R.string.sponsor_block_api_url_key), null);
+                prefs.getString(context.getString(R.string.sponsor_block_custom_api_url_key), null);
         result.userId = SponsorBlockHelper.getUserId(context);
 
         result.includeSponsorCategory =
